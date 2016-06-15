@@ -1,0 +1,28 @@
+DROP SCHEMA IF EXISTS Jobs cascade;
+CREATE SCHEMA Jobs;
+SET search_path TO Jobs;
+
+CREATE TABLE Posting (
+  pID integer PRIMARY KEY,
+  position varchar(25) NOT NULL
+) ;
+
+CREATE TABLE Questions (
+  qID integer PRIMARY KEY,
+  question varchar(50) NOT NULL,
+  pID integer REFERENCES Posting(pID)
+) ;
+
+CREATE DOMAIN score AS smallint 
+	CHECK (VALUE >= 1 AND VALUE <= 5);
+   
+CREATE DOMAIN language AS varchar(10)
+	CHECK (VALUE IN ('SQL', 'Latex', 'R', 'Scheme', 'Python'));
+	
+CREATE TABLE reqSkill (
+   what language,
+   level score,
+   importance score
+   pID integer REFERENCES Posting(pID)
+) ;
+

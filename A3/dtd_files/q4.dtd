@@ -1,0 +1,5 @@
+<!ELEMENT missingskills (problemposting*)>
+<!ELEMENT problemposting (skill*)>
+<!ATTLIST problemposting pID CDATA #REQUIRED>
+<!ELEMENT skill EMPTY>
+<!ATTLIST skill what CDATA #REQUIRED>

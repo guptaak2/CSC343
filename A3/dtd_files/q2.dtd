@@ -1,0 +1,3 @@
+<!ELEMENT collegiality (forgot*)>
+<!ELEMENT forgot EMPTY>
+<!ATTLIST forgot sid ID #REQUIRED>

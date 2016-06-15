@@ -1,0 +1,693 @@
+\documentclass{article}
+\usepackage{fullpage}
+\usepackage[normalem]{ulem}
+\usepackage{amstext}
+\usepackage{amssymb}
+\newcommand{\var}[1]{\mathit{#1}}
+\setlength{\parskip}{6pt}
+
+\begin{document}
+
+\noindent
+University of Toronto\\
+{\sc CSC}343, Winter 2016\\[10pt]
+{\LARGE\bf Assignment 1: Name: Akhil Gupta SN: 1000357071} \\[10pt]
+
+\noindent
+Unary operators on relations:
+\begin{itemize}
+\item $\Pi_{x, y, z} (R)$
+\item $\sigma_{condition} (R) $
+\item $\rho_{New} (R) $
+\item $\rho_{New(a, b, c)} (R) $
+\end{itemize}
+Binary operators on relations:
+\begin{itemize}
+\item $R \times S$
+\item $R \bowtie S$
+\item $R \bowtie_{condition} S$
+\item $R \cup S$
+\item $R \cap S$
+\item $R - S$
+\end{itemize}
+Logical operators:
+\begin{itemize}
+\item $\vee$
+\item $\wedge$
+\item $\neg$
+\end{itemize}
+Assignment:
+\begin{itemize}
+\item $New(a, b, c) := R$
+\end{itemize}
+
+\noindent
+Below is the text of the assignment questions; we suggest you include it in your solution.
+We have also included a nonsense example of how a query might look in LaTeX.  
+We used \verb|\var| in a couple of places to show what that looks like.  
+If you leave it out, most of the time the algebra looks okay, but certain words,
+{\it e.g.}, ``Offer" look horrific without it.
+
+The characters ``\verb|\\|" create a line break and ``[5pt]" puts in 
+five points of extra vertical space.  The algebra is easier to read with extra
+vertical space.
+We chose ``--" to indicate comments, and added less vertical space between comments
+and the algebra they pertain to than between steps in the algebra.
+This helps the comments visually stick to the algebra.
+
+
+%----------------------------------------------------------------------------------------------------------------------
+\section*{Part 1: Queries}
+\begin{enumerate}
+
+\item   % ----------
+Find all concerts in Toronto in 2016 that have one or more unsold seats costing under \$25.
+Report the event ID. \\[5pt]
+-- All Concerts in Toronto in 2016. \\[5pt]
+{ \large
+$ 
+AllConcerts(\var{eID}) := 
+	\Pi_{eID} 
+	\sigma_{
+		type='concert' \wedge
+		city='Toronto' \wedge
+		when.year='2016'} 
+	(Event \bowtie Venue) \\[10pt]
+$ 
+}
+-- All tickets available for all concerts under \$25. \\[5pt]
+{ \large
+$
+AllTickets(\var{eID, sID}) := 
+	\Pi_{eID, sID} 
+	\sigma_{
+		Ticket.eID=AllConcerts.eID \wedge
+		Ticket.price < 25}
+	(Ticket \bowtie AllConcerts) \\[10pt]
+$
+}
+-- All purchased tickets for all concerts under \$25. \\[5pt]
+{ \large
+$
+AllPurchased(\var{eID}) := 
+	\Pi_{eID} 
+	\sigma_{
+		AllConcerts.eID=Purchase.eID \wedge
+		Purchase.sID=AllTickets.sID \wedge
+		Ticket.price < 25} \\
+	(AllTickets \bowtie Purchase) \\[10pt]
+$
+}
+{ \large
+$
+Answer(\var{eID}) := 
+	\Pi_{eID}
+	(AllTickets - AllPurchased) \\[10pt]
+$
+}
+\item   % ----------
+Find all users who have paid at least \$200 for some ticket, 
+but have never bought a ticket to a musical.
+You might call these people ``big spenders'' who hate musicals.
+For each of them,
+find all the tickets they've bought for over \$200.
+Report the username, ticket price, event ID, event date and time, and event name. \\[5pt]
+-- Big spenders who hate musicals. \\[5pt]
+{ \large
+$
+BigSpenders(\var{userName}) := \\
+	\Pi_{userName} 
+	\sigma_{
+		Ticket.price \ge 200 \wedge
+		Event.eID=Ticket.eID=Purchase.eID \wedge
+		Event.type \neq 'musical' }\\
+	(Event \bowtie Ticket \bowtie Purchase) \\[10pt]
+$
+}
+-- Big spenders who bought tickets over \$200. \\[5pt]
+{ \large
+$
+BigSpendersOver200(\var{userName, Ticket.eID}) := \\
+	\Pi_{userName, Ticket.eID} 
+	\sigma_{
+		Purchase.username=BigSpenders.username \wedge 
+		Purchase.eID=Ticket.eID \wedge
+		Ticket.price > 200} \\
+	(Ticket \bowtie BigSpenders \bowtie Purchase) \\[10pt]
+$
+}
+-- All details about big spenders. \\[5pt]
+{ \large
+$
+Answer(\var{userName, Ticket.price, Event.eID, Event.when, Event.name}) := \\
+	\Pi_{userName, Ticket.price, Event.eID, Event.when, Event.name} 
+	\sigma_{
+		BigSpendersOver200.Ticket.eID=Event.eID }\\
+	(BigSpendersOver200 \bowtie Event) \\[10pt]
+$
+}
+\item   % ----------
+Find all users who, in two consecutive years, have bought multiple tickets for a single event.
+Report their user names and email addresses.\\[5pt]
+-- People who bought tickets before or on the same year of Event. \\[5pt]
+{ \large
+$
+BoughtBeforeOrSameYear(\var{eID, when}) := \\
+	\Pi_{eID, when} 
+	\sigma_{
+		Purchase.when.year \leq Event.when.year \wedge
+		Purchase.eID=Event.eID }\\
+	(Event \bowtie Purchase) \\[40pt]
+$
+}
+-- At least two tickets bought. \\[5pt]
+{ \large
+$
+AtleastTwo(\var{userName}) := 
+	\Pi_{userName} 
+	\sigma_{
+		B1.eID=B2.eID \wedge
+		B2.when.year=B1.when.year+1 \wedge
+		B1.sID \neq B2.sID }\\
+	(\rho_{BoughtBeforeOrSameYear}B1 \times \rho_{BoughtBeforeOrSameYear}B2) \\[10pt]
+$
+$
+Answer(\var{userName, email}) := 
+	\Pi_{userName, email} 
+	\sigma_{
+		AtLeastTwo.username=User.username }\\
+	(AtLeastTwo \bowtie User) \\[10pt]
+$
+}
+
+\item   % ----------
+Find all events in 2015 or earlier
+for which none of the seats at the top price were sold,
+but every seat at a lower price was sold.
+Report the event ID and event name.\\
+-- All Events in 2015 or ealier. \\[5pt]
+{ \large
+$
+AllEvents(\var{eID}) := 
+	\Pi_{eID} 
+	\sigma_{
+		when.year \leq 2015
+		}
+	(Event) \\[10pt]
+$
+}
+-- All seats at lower price. \\[5pt]
+{ \large
+$
+LowerPrice(\var{eID, sID}) := 
+	\Pi_{eID, sID} 
+	\sigma_{
+		AllEvents.eID=T1.eID=T2.eID \wedge
+		T1.price < T2.price
+		}\\
+	(AllEvents \bowtie (\rho_{Ticket}T1 \times \rho_{Ticket}T2)) \\[10pt]
+$
+}
+-- All seats at top price. \\[5pt]
+{ \large
+$
+TopPrice(\var{eID, sID}) := 
+	\Pi_{eID, sID} 
+	Ticket - LowerPrice \\[10pt]
+$
+}
+-- All purchased seats at lower price. \\[5pt]
+{ \large
+$
+LowerPricePurchased(\var{eID}) := 
+	\Pi_{eID} 
+	\sigma_{
+		LowerPrice.eID=Purchase.eID \wedge
+		LowerPrice.sID=Purchase.sID }\\
+	(LowerPrice \bowtie Purchase) \\[10pt]
+$
+}
+-- All purchased seats at top price. \\[5pt]
+{ \large
+$
+TopPricePurchased(\var{eID}) := 
+	\Pi_{eID} 
+	\sigma_{
+		TopPrice.eID \neq Purchase.eID \wedge
+		TopPrice.sID \neq Purchase.sID }\\
+	(TopPrice \bowtie Purchase) \\[10pt]
+$
+$
+Answer(\var{eID, Event.name}) := 
+	\Pi_{eID, Event.name} 
+	\sigma_{
+		Event.name=Event.eID }\\
+	((LowerPricePurchased \cap HigherPricePurchased) \bowtie Event) \\[10pt]
+$
+}
+
+\item   % ----------
+For each venue in New York, 
+find the least expensive and the most expensive ticket price for a seat in that venue (for any event) in 2015.
+Report the venue ID, venue name, lowest price and highest price.\\[5pt]
+-- All Venues in New York where events happened in 2015. \\[5pt]
+{ \large
+$
+AllVenuesInNY(\var{vID, Venue.name, eID}) := \\
+	\Pi_{vID, venue.name, eID} 
+	\sigma_{
+		venue.city='New York' \wedge
+		venue.vID=event.venue \wedge 
+		when.year=2015 
+		} \\
+	(Venue \bowtie Event) \\[10pt]
+$
+}
+-- All seats available at all venues in NY. \\[5pt]
+{ \large
+$
+AllSeats(\var{vID, Venue.name, eID, sID}) := 
+	\Pi_{vID, Venue.name, Event.eID, sID} 
+	\sigma_{
+		AllVenuesInNY.eID=Ticket.eID
+		} \\
+	(AllVenuesInNY \bowtie Ticket) \\[40pt]
+$
+}
+-- All seats not at highest price. \\[5pt]
+{ \large
+$
+NotHighestPrice(\var{vID, Venue.name, eID, sID}) := \\
+	\Pi_{vID, venue.name, T1.eID, T1.sID} 
+	\sigma_{
+		AllVenuesInNY.eID=T1.eID=T2.eID \wedge
+		T1.price < T2.price
+		}\\
+	(AllVenuesInNY \bowtie (\rho_{Ticket}T1 \times \rho_{Ticket}T2)) \\[10pt]
+$
+}
+-- Most expensive seat. \\[5pt]
+{ \large
+$
+TopSeat(\var{vID, Venue.name, sID}) := 
+	\Pi_{vID, venue.name, sID} 
+	(AllSeats - NotHighestPrice) \\[10pt]
+$
+}
+-- Most expensive ticket. \\[5pt]
+{ \large
+$
+HighestPrice(\var{vID, Venue.name, price}) := \\
+	\Pi_{vID, venue.name, price} 
+	\sigma_{
+		TopSeat.sID=Ticket.sID }
+	(TopSeat \bowtie Ticket) \\[10pt]
+$
+}
+-- All seats not at lower price. \\[5pt]
+{ \large
+$
+NotLowerPrice(\var{vID, Venue.name, eID, sID}) := 
+	\Pi_{vID, venue.name, T1.eID, T1.sID} \\
+	\sigma_{
+		AllVenuesInNY.eID=T1.eID=T2.eID \wedge
+		T1.price > T2.price
+		}
+	(AllVenuesInNY \bowtie (\rho_{Ticket}T1 \times \rho_{Ticket}T2)) \\[10pt]
+$
+}
+-- Least expensive seat. \\[5pt]
+{ \large
+$
+LeastSeat(\var{vID, Venue.name, sID}) := 
+	\Pi_{vID, venue.name, sID} 
+	(AllSeats - NotLowerPrice) \\[10pt]
+$
+}
+-- Least expensive ticket. \\[5pt]
+{ \large
+$
+LeastPrice(\var{vID, Venue.name, price}) := 
+	\Pi_{vID, venue.name, price} 
+	\sigma_{
+		LeastSeat.sID=Ticket.sID } \\
+	(LeastSeat \bowtie Ticket) \\[10pt]
+$
+$
+Answer(\var{vID, venue name, lowest price, highest price}) := 
+	\Pi_{vID, venue.name, LeastPrice.price, HighestPrice.price} \\
+	\sigma_{
+		HighestPrice.vID=LeastPrice.vID \wedge
+		HighestPrice.name=LeastPrice.name }
+	(HighestPrice \bowtie LeastPrice) \\[10pt]
+$
+}
+
+\item   % ----------
+Find the venue with the greatest number of accessible seats.
+Report the venue name and city.\\[5pt]
+Cannot be expressed.
+
+\item   % ----------
+Find every event for which one user bought every ticket for an accessible seat.
+Report the event name, date and city, and username of the person who bought all the accessible seats.\\[5pt]
+-- All events with accessible seats. \\[5pt]
+{ \large
+$
+AllAccessible(\var{eID, sID}) := 
+	\Pi_{eID, sID} 
+	\sigma_{
+		Seat.venue=Event.venue \wedge
+		Seat.accessible=true }
+	(Seat \bowtie Event) \\[10pt]
+$
+}
+-- All tickets for accessible seats. \\[5pt]
+{ \large
+$
+AllAccessibleTickets(\var{eID, sID}) := \\
+	\Pi_{Ticket.eID, Ticket.sID} 
+	\sigma_{
+		AllAccessible.eID=Ticket.eID \wedge
+		AllAccessible.sID=Ticket.sID}
+	(AllAccessible \bowtie Ticket)\\[10pt]
+$
+}
+-- People who bought accessible seats. \\[5pt]
+{ \large
+$
+AccessiblePurchased(\var{eID, sID, userName}) := 
+	\Pi_{Purchase.eID, Purchase.sID, userName} \\
+	\sigma_{
+		AllAccessible.eID=Purchase.eID \wedge
+		AllAccessible.sID=Purchase.sID}
+	(AllAccessible \bowtie Purchase)\\[20pt]
+$
+}
+-- One user who bought all accessible seats. \\[5pt]
+{ \large
+$
+OneUserBoughtAll(\var{eID, userName}) := 
+	\Pi_{A1.eID, A1.userName} \\
+	\sigma_{
+		A1.eID=A2.eID \wedge
+		A1.userName=A2.userName \wedge
+		A1.sID \neq A2.sID}
+	(\rho_{AccessiblePurchased}A1 \times \rho_{AccessiblePurchased}A2)\\[10pt]
+$
+$
+Answer(\var{Event.name, Event.when, Venue.city, userName}) := \\
+	\Pi_{Event.name, Event.when.date, Venue.city, userName} 
+	\sigma_{
+		OneUserBoughtAll.eID=Event.eID \wedge
+		Event.venue=Venue.vID}\\
+	(OneUserBoughtAll \bowtie Event \bowtie Venue) \\[10pt]
+$
+}
+\item   % ----------
+Find the events in Toronto in 2015 at which at least half of the seats were unsold.
+Report the event ID, name and date.\\[5pt]
+Cannot be expressed.
+
+\item   % ----------
+Find all users who have bought a ticket to at least one event,
+but have never bought two or more tickets to one event.
+Report the username, last name and first name.\\[5pt]
+-- Users who bought at least one ticket. \\[5pt]
+{ \large
+$
+AtLeastOne(\var{eID, sID, userName}) := 
+	\Pi_{Purchase.eID, Purchase.sID, userName} \\
+	\sigma_{
+		Seat.sID=Purchase.sID \wedge
+		Event.eID=Purchase.eID \wedge
+		Seat.venue=Event.venue }
+	(Seat \bowtie Event \bowtie Purchase) \\[10pt]
+$
+}
+-- Users who bought at least two tickets. \\[5pt]
+{ \large
+$
+AtLeastTwo(\var{userName}) := 
+	\Pi_{userName} 
+	\sigma_{
+		R1.eID=R2.eID \wedge
+		R1.userName=R2.userName \wedge
+		R1.sID \neq R2.sID
+		}\\
+	(\rho_{AtLeastOne}R1 \times \rho_{AtLeastOne}R2)\\[10pt]
+$}
+-- Users who bought a ticket to atleast one event but never bought two or more tickets. \\[5pt]
+{ \large
+$
+UserIDs(\var{userName}) := 
+	\Pi_{userName} 
+	AtLeastOne - AtLeastTwo\\[10pt]
+$
+$
+Answer(\var{userName, lastName, firstName}) := \\
+	\Pi_{User.userName, lastName, firstName} 
+	\sigma_{
+		UserIDs.username=User.username 
+		}
+	(UserIDS \bowtie User) \\[10pt]
+$
+}
+\item   % ----------
+Find all users who have bought a ticket for each concert that the Rolling Stones have played in Toronto in 2000 or since. Report the usernames. \\[5pt]
+-- All concerts that Rolling Stones has played in Toronto since 2000. \\[5pt]
+{ \large
+$
+Concerts(\var{eID}) := \\
+	\Pi_{eID} 
+	\sigma_{
+		type='Concert' \wedge
+		Event.name='RollingStones' \wedge
+		Event.venue=Venue.vID \wedge
+		when.year \ge 2000 \wedge
+		city='Toronto' }\\
+	(Event \bowtie Venue) \\[10pt]
+$
+}
+-- All tickets purchasable for all concerts. \\[5pt]
+{ \large
+$
+AllTickets(\var{eID, sID}) := 
+	\Pi_{Ticket.eID, Ticket.sID} 
+	\sigma_{
+		Concerts.eID=Ticket.eID}
+	(Concerts \bowtie Ticket)\\[10pt]
+$
+}
+-- All purchased tickets. \\[5pt]
+{ \large
+$
+Purchased(\var{eID, sID, userName}) := 
+	\Pi_{Purchase.eID, Purchase.sID, Purchase.userName} \\
+	\sigma_{
+		AllTickets.eID=Purchase.eID \wedge
+		AllTickets.sID=Purchase.sID
+		} 
+	(All Tickets \bowtie Purchase ) \\[10pt]
+$
+$
+Answer(\var{userName}) := \\
+	\Pi_{P1.userName} 
+	\sigma_{
+		P!.eID=P2.eID \wedge
+		P1.sID \neq P2.sID \wedge
+		P1.userName=P2.userName
+		}
+	(\rho_{Purchased}P1 \times \rho_{Purchased}P2) \\[50pt]
+$
+}
+
+\item   % ----------
+Find all venues at which the Rolling Stones have played a sold out concert
+({\it i.e.} the event is a concert and its name is ``Rolling Stones").
+For each of these venues, report the name of the owner of the venue. \\[5pt]
+-- All venues and events that Rolling Stones has played. \\[5pt]
+{ \large
+$
+AllVenues(\var{eID, vID}) := 
+	\Pi_{eID, vID} 
+	\sigma_{
+		type='Concert' \wedge
+		Event.name='Rolling \ Stones' \wedge
+		Event.venue=Venue.vID 
+		}\\
+	(Event \bowtie Venue) \\[10pt]
+$
+}
+-- All tickets purchasable for Rolling Stone concerts. \\[5pt]
+{ \large
+$
+AllTickets(\var{eID, sID}) := 
+	\Pi_{Ticket.eID, Ticket.sID} 
+	\sigma_{
+		AllVenues.eID=Ticket.eID}
+	(AllVenues \bowtie Ticket)\\[10pt]
+$
+}
+-- All purchased Rolling Stone tickets. \\[5pt]
+{ \large
+$
+Purchased(\var{eID, sID}) := 
+	\Pi_{Purchase.eID, Purchase.sID} \\
+	\sigma_{
+		AllTickets.eID=Purchase.eID \wedge
+		AllTickets.sID=Purchase.sID
+		} 
+	(AllTickets \bowtie Purchase ) \\[10pt]
+$
+}
+-- Not purchased Rolling Stone tickets. \\[5pt]
+{ \large
+$
+NotPurchased(\var{eID, sID}) := 
+	\Pi_{AllTickets.eID, AllTickets.sID} 
+	(AllTickets - AllPurchased ) \\[10pt]
+$
+}
+-- All events where Rolling Stone concert was sold out. \\[5pt]
+{ \large
+$
+AllEvents(\var{eID}) := \\
+	\Pi_{AllPurchased.eID} 
+	\sigma_{
+		NotPurchased.eID \neq AllPurchased.eID
+		} 
+	(AllPurchased \bowtie NotPurchased ) \\[10pt]
+$
+$
+Answer(\var{owner}) := \\
+	\Pi_{Venue.owner} 
+	\sigma_{
+		AllEvents.eID=Event.eID \wedge
+		Event.venue=Venue.vID
+		}
+	(AllEvents \bowtie Event \bowtie Venue) \\[10pt]
+$
+}
+
+\item   % ----------
+Find all users who bought a ticket for either the first talk or the second talk in Toronto in 2016.
+Report their email addresses.
+Note: There may be only one talk in Toronto in 2016, 
+in which case, the only people in the answer will have bought a ticket to that first (and only) talk.
+If there is {\it no} talk in Toronto in 2016, the answer should be an empty relation. \\[5pt]
+-- All talks in Toronto in 2016. \\[5pt]
+{ \large
+$
+AllTalks(\var{eID, when}) := 
+	\Pi_{eID, when} 
+	\sigma_{
+		type='Talk' \wedge
+		when.year=2016 \wedge
+		city='Toronto' \wedge
+		Event.venue=Venue.vID
+		}\\
+	(Event \bowtie Venue) \\[10pt]
+$
+}
+-- Not the first talk in Toronto. \\[5pt]
+{ \large
+$
+NotFirstTalk(\var{eID, when}) := 
+	\Pi_{T1.eID, T1.when} 
+	\sigma_{
+		T1.when > T2.when
+		}
+	(\rho_{AllTalks}T1 \times \rho_{AllTalks}T2) \\[10pt]
+$
+}
+-- First talk in Toronto. \\[5pt]
+{ \large
+$
+FirstTalk(\var{eID, when}) := 
+	\Pi_{eID, when} 
+	(AllTalks - NotFirstTalk) \\[10pt]
+$
+}
+-- Not the second talk in Toronto. \\[5pt]
+{ \large
+$
+NotSecondTalk(\var{eID, when}) := 
+	\Pi_{T3.eID, T3.when} 
+	\sigma_{
+		T3.when > T4.when
+		}
+	(\rho_{NotFirstTalk}T3 \times \rho_{NotFirstTalk}T4) \\[10pt]
+$
+}
+-- Second talk in Toronto. \\[5pt]
+{ \large
+$
+SecondTalk(\var{eID, when}) := 
+	\Pi_{eID, when} 
+	(NotFirstTalk - NotSecondTalk) \\[40pt]
+$
+}
+-- Users who bought tickets for the first talk. \\[5pt]
+{ \large
+$
+FirstTalkUsers(\var{email}) := 
+	\Pi_{email} 
+	\sigma_{
+		FirstTalk.eID=Purchase.eID \wedge
+		Purchase.userName=User.userName} \\
+	(FirstTalk \bowtie Purchase \bowtie User)\\[10pt]
+$
+}
+-- Users who bought tickets for the second talk. \\[5pt]
+{ \large
+$
+SecondTalkUsers(\var{email}) := 
+	\Pi_{email} 
+	\sigma_{
+		SecondTalk.eID=Purchase.eID \wedge
+		Purchase.userName=User.userName } \\
+	(SecondTalk \bowtie Purchase \bowtie User)\\[10pt]
+$
+$
+Answer(\var{email}) := 
+	(FirstTalkUsers \cup SecondTalkUsers) \\[10pt]
+$
+}
+\end{enumerate}
+
+
+
+%----------------------------------------------------------------------------------------------------------------------
+\section*{Part 2: Additional Integrity Constraints}
+
+\begin{enumerate}
+\item   % ----------
+A ticket for an event must be for a seat in the same venue as the event venue. \\[5pt]
+{ \large
+$
+	\sigma_{
+		Seat.sID \neq Ticket.sID \wedge
+		Event.eID \neq Ticket.eID \wedge
+		Seat.venue \neq Event.venue
+		}
+	(Seat \bowtie Event \bowtie Ticket) = \emptyset \\[10pt]
+$
+}
+\item   % ----------
+A ticket for an event cannot be purchased after the event. \\[5pt]
+{ \large
+$
+	\sigma_{
+		Purchase.when > Event.when
+		}
+	(Event \bowtie Purchase) = \emptyset \\[10pt]
+$
+}
+
+\end{enumerate}
+
+\end{document}
+
+
+

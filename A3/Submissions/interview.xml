@@ -1,0 +1,44 @@
+<!DOCTYPE interviews SYSTEM "interview.dtd">
+<interviews>
+	<interview rID = "R1" pID = "P1" sID = "S1">
+	<date>March 26, 2016</date>
+	<time>11:30am</time>
+	<location>Square One City Centre</location>
+	<assessment>
+		<answers>
+			<answer qID = "Q1">5</answer>
+		</answers>
+		<techProficiency>4</techProficiency>
+		<communication>5</communication>
+		<enthusiasm>6</enthusiasm>
+	</assessment>
+	</interview>
+		
+	<interview rID = "R1" pID = "P1" sID = "S2">
+        <date>March 26, 2016</date>
+        <time>11:30am</time>
+        <location>Square One City Centre</location>
+        <assessment>
+                <answers>
+                        <answer qID = "Q1">5</answer>
+                </answers>
+                <techProficiency>4</techProficiency>
+                <communication>5</communication>
+                <enthusiasm>6</enthusiasm>
+        </assessment>
+        </interview>
+
+	<interviewer sID = "S1">
+	<forename>Kapil</forename>
+	<surname>Gupta</surname>
+	<honorific>Dr.</honorific>
+	<title>Sales Manager</title>
+	</interviewer>
+        
+        <interviewer sID = "S2">
+        <forename>Kapil</forename>
+        <surname>Gupta</surname>
+        <honorific>Dr.</honorific>
+        <title>Sales Manager</title>
+        </interviewer>
+</interviews>		

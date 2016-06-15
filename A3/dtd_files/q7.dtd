@@ -1,0 +1,9 @@
+<!ELEMENT report (interview*)>
+<!ELEMENT interview (who, position, match, average)>
+<!ELEMENT who EMPTY>
+<!ATTLIST who rID CDATA #REQUIRED
+              forename CDATA #REQUIRED
+              surname CDATA #REQUIRED>
+<!ELEMENT position (#PCDATA)>
+<!ELEMENT match (#PCDATA)>
+<!ELEMENT average (#PCDATA)>

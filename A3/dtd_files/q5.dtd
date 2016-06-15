@@ -1,0 +1,7 @@
+<!ELEMENT rareskills (posting*)>
+<!ATTLIST rareskills numresumes CDATA #REQUIRED>
+<!ELEMENT posting (EMPTY*)>
+<!ATTLIST posting pID CDATA #REQUIRED
+                  skill CDATA #REQUIRED
+                  numwith CDATA #REQUIRED
+                  numhigh CDATA #REQUIRED>

@@ -1,0 +1,28 @@
+<!DOCTYPE postings SYSTEM "posting.dtd">
+<postings>
+<posting pID = "P1">
+	<position>IT Consultant</position>
+	<reqSkill what = "SQL" level = "5" importance = "2"/>
+	<reqSkill what = "Scheme" level = "1" importance = "3"/>
+	<reqSkill what = "Python" level = "1" importance = "3"/>
+	<questions>
+		<question qID = "Q1">What is your name</question>
+	</questions>
+</posting>
+<posting pID = "P2">
+        <position>Some Consultant</position>
+        <reqSkill what = "SQL" level = "5" importance = "3"/>
+        <reqSkill what = "R" level = "4" importance = "3"/>
+        <questions>
+                <question qID = "Q2">What is your name</question>
+        </questions>
+</posting>
+<posting pID = "P3">
+        <position>Some other Consultant</position>
+        <reqSkill what = "R" level = "5" importance = "2"/>
+        <reqSkill what = "LaTeX" level = "4" importance = "5"/>
+        <questions>
+                <question qID = "Q3">What is your name</question>
+        </questions>
+</posting>
+</postings>

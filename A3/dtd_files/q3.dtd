@@ -1,0 +1,5 @@
+<!ELEMENT priorities (posting*)>
+<!ELEMENT posting (skill*)>
+<!ATTLIST posting pID CDATA #REQUIRED>
+<!ELEMENT skill (#PCDATA)>
+<!ATTLIST skill importance CDATA #REQUIRED>

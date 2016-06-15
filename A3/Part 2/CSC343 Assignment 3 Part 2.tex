@@ -1,0 +1,246 @@
+\documentclass{csc_assignment2}
+\usepackage[utf8]{inputenc}
+\usepackage{calc}  % arithmetic in length parameters
+\usepackage{enumitem}  % more control over list formatting
+\usepackage{fancyhdr}  % simpler headers and footers
+\usepackage{lastpage}  % for last page number
+\usepackage{relsize}  % easier font size changes
+\usepackage[normalem]{ulem}  % smarter underlining
+\usepackage{url}  % verb-like typesetting of URLs
+\usepackage{xfrac}  % nicer looking simple fractions for text and math
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+% ----------------------------------------------------------------
+% TODO: Enter the assignment number, your name, and your student number below
+% ----------------------------------------------------------------
+\AssignmentName{Assignment 3 Part 2}
+\StudentName{Akhil Gupta}
+\StudentNumber{1000357071}
+
+% ----------------------------------------------------------------
+\begin{document}
+\begin{description}
+\begin{enumerate}
+\item \begin{enumerate}
+\item BCNF requires that the LHS of an FD be a superkey. \begin{enumerate}
+\item $A^{+}$: $\text{AE}$, $A$ is not a superkey and $A \rightarrow E$ violates BCNF.
+\item $M^{+}$: $\text{MEZA}$, $M$ is not a superkey and $M \rightarrow EZA$ violates BCNF. 
+\item $S^{+}$: $\text{SFZBMEA}$, $S$ is a superskey and $S \rightarrow FZB$ does not violate BCNF. 
+\item $SZ^{+}$: $\text{superset of S}$, $SZ$ is a superset of $S$ and $SZ \rightarrow M$ does not violate BCNF. 
+\item $BF^{+}$: $\text{BFMEZA}$, $BF$ is not a superskey and $BF \rightarrow M$ violates BCNF.
+\end{enumerate}
+
+\item \begin{enumerate}
+\item Decompose $R$ using FD $M \rightarrow EZA$. $M^{+}$: $\text{MEZA}$, so this yields two relations: $R1 = AEZM$ and $R2 = BFMS$.
+\item Project the FD's onto $R1 = AEZM$. \\[5pt]
+\begin{tabular}{ |c|c|c|c|c|c| } 
+ \hline
+ A & E & Z & M & closure & FDs \\
+ \hline
+ 1 & 0 & 0 & 0 & $A^{+}$: $\text{AE}$ & $A \rightarrow E$: violates BCNF; abort the projection \\ 
+ \hline
+\end{tabular}
+\item Decompose $R1$ using $A \rightarrow E$. This yields two relations: $R3 = AMZ$ and $R4 = AE$.
+\item Project the FD's onto $R3 = AMZ$. \\[5pt]
+\begin{tabular}{ |c|c|c|c|c| } 
+ \hline
+ A & M & Z & closure & FDs \\
+ \hline
+ 1 & 0 & 0 & $A^{+}$: $\text{AE}$ & $A \rightarrow E$: nothing \\ 
+ \hline
+ 0 & 1 & 0 & $M^{+}$: $\text{MEZA}$ & $M \rightarrow EZA$: $M$ is a superkey of $R3$ \\ 
+ \hline
+ 0 & 0 & 1 & $Z^{+}$: $\text{Z}$ & nothing \\
+ \hline
+ & supersets of $M$ && irrelevant & can only generate weaker FDs than what we already have \\
+ \hline
+ 1 & 0 & 0 & $AZ^{+}$: $\text{AZE}$ & nothing \\
+ \hline
+\end{tabular} \\[3pt] This relation satisfies BCNF. 
+\item Project the FD's onto $R4 = AE$. \\[5pt]
+\begin{tabular}{ |c|c|c|c| } 
+ \hline
+ A & E & closure & FDs \\
+ \hline
+ 1 & 0 & $A^{+}$: $\text{AE}$ & $A \rightarrow E$: $A$ is a superskey of $R4$ \\ 
+ \hline
+ 0 & 1 & $E^{+}$: $\text{E}$ & nothing \\ 
+ \hline
+\end{tabular} \\[3pt] This relation satisfies BCNF. 
+\item Return to $R2 = BFMS$ and project the FD's onto it. \\[5pt]
+\begin{tabular}{ |c|c|c|c|c|c| } 
+ \hline
+ B & F & M & S & closure & FDs \\
+ \hline
+ 1 & 0 & 0 & 0 & $B^{+}$: $\text{B}$ & nothing \\ 
+ \hline
+ 0 & 1 & 0 & 0 & $F^{+}$: $\text{F}$ & nothing \\ 
+ \hline
+ 0 & 0 & 1 & 0 & $M^{+}$: $\text{MEZA}$ & nothing \\ 
+ \hline
+ 0 & 0 & 0 & 1 & $S^{+}$: $\text{BFMS}$ & $S \rightarrow BFM$: $S$ is a superkey of $R2$ \\ 
+ \hline
+ 1 & 1 & 0 & 0 & $BF^{+}$: $\text{BFM}$ & $BF \rightarrow M$: violates BCNF; abort the projection \\ 
+ \hline
+\end{tabular} \\[3pt] We must decompose $R2$ further.
+\item Decompose $R2$ using FD $BF \rightarrow M$. This yields two relations: $R5 = BFS$ and $R6 = BFM$.
+\item Project the FD's onto $R5 = BFS$ \\[5pt]
+\begin{tabular}{ |c|c|c|c|c| } 
+ \hline
+ B & F & S & closure & FDs \\
+ \hline
+ 1 & 0 & 0 & $B^{+}$: $\text{B}$ & nothing \\ 
+ \hline
+ 0 & 1 & 0 & $F^{+}$: $\text{F}$ & nothing \\ 
+ \hline
+ 0 & 0 & 1 & $S^{+}$: $\text{SBF..}$ & $S \rightarrow BF$: $S$ is a superkey of $R5$ \\
+ \hline
+ 1 & 1 & 0 & $BF^{+}$: $\text{BF..}$ & nothing \\
+ \hline
+ & supersets of $S$ && irrelevant & can only generate weaker FDs than what we already have \\
+ \hline
+\end{tabular} \\[3pt] This relation satisfies BCNF. 
+\item Project the FD's onto $R6 = BFM$ \\[5pt]
+\begin{tabular}{ |c|c|c|c|c| } 
+ \hline
+ B & F & M & closure & FDs \\
+ \hline
+ 1 & 0 & 0 & $B^{+}$: $\text{B}$ & nothing \\ 
+ \hline
+ 0 & 1 & 0 & $F^{+}$: $\text{F}$ & nothing \\ 
+ \hline
+ 0 & 0 & 1 & $M^{+}$: $\text{M..}$ & nothing \\
+ \hline
+ 1 & 1 & 0 & $BF^{+}$: $\text{BFM}$ & $BF \rightarrow M$: $BF$ is a superkey of $R6$ \\
+ \hline
+ 0 & 1 & 1 & $FM^{+}$: $\text{FM..}$ & nothing \\
+ \hline
+ 1 & 0 & 1 & $BM^{+}$: $\text{BM..}$ & nothing \\
+ \hline
+\end{tabular} \\[3pt] This relation satisfies BCNF.
+\item Final decomposition: \begin{enumerate}
+\item $R3 = AMZ$ with FD's $A \rightarrow E$ and $M \rightarrow EZA$,
+\item $R4 = AE$ with FD $A \rightarrow E$,
+\item $R5 = BFS$ with FD $S \rightarrow BF$,
+\item $R6 = BFM$ with FD $BF \rightarrow M$
+\end{enumerate}
+\end{enumerate}
+\end{enumerate}
+\item $R = ABCDEF$. \begin{enumerate} \item Closures:
+\begin{enumerate}
+\item $A^{+}$: $\text{ADFB}$, $A$ is not a superkey.
+\item $ABE^{+}$: $\text{ABECDF}$, $ABE$ is a superkey. 
+\item $ACDF^{+}$: $\text{ACDFEB}$, $ACDF$ is a superskey.
+\item $AD^{+}$: $\text{ADBF}$, $AD$ is not a superkey.
+\item $C^{+}$: $\text{CD}$, $C$ is not a superskey.
+\end{enumerate}
+We know that $A$ has to be a part of every key because it only appears on the $LHS$ and never on $RHS$, whereas $BCDEF$ appears on both $LHS$ and $RHS$ so we have to check them. Additionally, the only way to get $C$ is to have $A$ or $B$ or $E$ on $LHS$, but we can get $B$ if we have $A$ on $LHS$. $AC^{+}$: $\text{ABCDEF}$. Therefore, $AC$ is key. If we don't start with $E$ on $LHS$, we can never get $E$ on $RHS$. $AE^{+}$: $\text{ABCDEF}$. Therefore, $AE$ is key. The only keys are $AE$ and $AC$. \newpage
+\item \begin{enumerate} \item \textbf{Step 1}: Split the $RHS$ to get our initial set of FD's, $S1$: \begin{enumerate}
+\item $A \rightarrow D$
+\item $A \rightarrow F$
+\item $ABE \rightarrow C$
+\item $ABE \rightarrow D$
+\item $ABE \rightarrow F$
+\item $ACDF \rightarrow E$
+\item $AD \rightarrow B$
+\item $C \rightarrow D$
+\end{enumerate}
+\item \textbf{Step 2}: For each FD, try to reduce the $LHS$: \begin{enumerate}
+\item $A^{+}$: $\text{AD..}$; keep
+\item $A^{+}$: $\text{ADF..}$; keep
+\item $A^{+}$: $\text{ADFB}$, $B^{+}$: $\text{B}$, $E^{+}$: $\text{E}$, $AB^{+}$: $\text{ABDF}$, $BE^{+}$: $\text{BE}$, $AE^{+}$: $\text{AEDFBC}$; reduce to $AE \rightarrow C$
+\item $A^{+}$: $\text{AD..}$; reduce to $A \rightarrow D$
+\item $A^{+}$: $\text{ADF..}$; reduce to $A \rightarrow F$
+\item $AC^{+}$: $\text{ADFBCE}$; reduce to $AC \rightarrow E$
+\item $A^{+}$: $\text{ADFB..}$; reduce to $A \rightarrow B$
+\item $C^{+}$: $\text{CD..}$; keep
+\end{enumerate}
+Our new set of FD's, let's call it $S2$: \begin{enumerate}
+\item $AE \rightarrow C$
+\item $A \rightarrow D$
+\item $A \rightarrow F$
+\item $AC \rightarrow E$
+\item $A \rightarrow B$
+\item $C \rightarrow D$
+\end{enumerate}
+\item \textbf{Step 3}: Try to eliminate each FD. \begin{enumerate}
+\item $AE^{+}_{S2 - (A)}$: $\text{AEDBF}$. We need this FD.
+\item $A^{+}_{S2 - (B)}$: $\text{AFB}$. We need this FD.
+\item $A^{+}_{S2 - (C)}$: $\text{ADB}$. We need this FD.
+\item $AC^{+}_{S2 - (D)}$: $\text{ACDFB}$. We need this FD.
+\item $A^{+}_{S2 - (E)}$: $\text{ADF}$. We need this FD.
+\item $C^{+}_{S2 - (F)}$: $\text{C}$. We need this FD.
+\end{enumerate}
+Our final set of FD's is $S2$ (listed above)
+\end{enumerate}
+\newpage
+\item \begin{enumerate} \item Let's call the revised FD's  $S5$: \begin{enumerate}
+\item $AE \rightarrow C$ 
+\item $A \rightarrow DFB$ 
+\item $AC \rightarrow E$ 
+\item $C \rightarrow D$
+\end{enumerate}
+\item The set of relations that would result would have these attributes: \\
+{$R1(A, E, C)$, $R2(A, D, F, B)$, $R3(A, C, E)$, $R4(C, D)$}
+\item Since the attributes $ACE$ occur within $R2$, we don't need to keep the relation $R3$. 
+\item $AE$ and $AC$ are keys of $R$, so there is no need to add another relation that includes a key.
+\item So, the final set of relations is: \\
+{$R1(A, E, C)$, $R2(A, D, F, B)$, $R4(C, D)$}
+\end{enumerate}
+\item Redundancy: Project onto relations to find all FD's. \begin{enumerate}
+\item Project FD's onto $R1$:\\
+\begin{tabular}{ |c|c|c|c|c| } 
+ \hline
+ A & E & C & closure & FDs \\
+ \hline
+ 1 & 0 & 0 & $A^{+}$: $\text{ADBF}$ & nothing \\ 
+ \hline
+ 0 & 1 & 0 & $E^{+}$: $\text{E}$ & nothing \\ 
+ \hline
+ 0 & 0 & 1 & $C^{+}$: $\text{CD}$ & nothing \\
+ \hline
+ 1 & 1 & 0 & $AE^{+}$: $\text{AEC}$ & $AE \rightarrow C$: $AE$ is a superkey of $R1$ \\
+ \hline
+ 0 & 1 & 1 & $EC^{+}$: $\text{EC}$ & nothing \\
+ \hline
+ 1 & 0 & 1 & $AC^{+}$: $\text{ACE}$ & $AC \rightarrow E$: $AC$ is a superkey of $R1$ \\
+ \hline
+\end{tabular} \\[3pt] This relation satisfies BCNF.
+\item Project FD's onto $R2$:\\
+\begin{tabular}{ |c|c|c|c|c|c| } 
+ \hline
+ A & D & B & F & closure & FDs \\
+ \hline
+ 1 & 0 & 0 & 0 & $A^{+}$: $\text{ADBF}$ & $A \rightarrow BDF$: $A$ is a superkey of $R2$ \\ 
+ \hline
+ 0 & 1 & 0 & 0 & $D^{+}$: $\text{D}$ & nothing \\ 
+ \hline
+ 0 & 0 & 1 & 0 & $B^{+}$: $\text{B}$ & nothing \\
+ \hline
+ 0 & 0 & 0 & 1 & $F^{+}$: $\text{F}$ & nothing \\
+ \hline
+ & supersets of $A$ &&& irrelevant & we already know that $A$ is superkey \\
+ \hline
+ & combinations of $B, D, F$ &&& irrelevant & nothing \\
+ \hline
+\end{tabular} \\[3pt] This relation satisfies BCNF.
+\item Project FD's onto $R3$:\\
+\begin{tabular}{ |c|c|c|c| } 
+ \hline
+ C & D & closure & FDs \\
+ \hline
+ 1 & 0 & $C^{+}$: $\text{CD}$ & $C \rightarrow D$: $C$ is superkey of $R3$ \\ 
+ \hline
+ 0 & 1 & $D^{+}$: $\text{D}$ & nothing \\ 
+ \hline
+\end{tabular} \\[3pt] This relation satisfies BCNF.
+\item Since all relations are in BCNF, this schema does not allow any redundancy. 
+\end{enumerate}
+\end{enumerate}
+\end{enumerate}
+\end{description}
+\end{document}

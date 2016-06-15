@@ -1,0 +1,65 @@
+dbsrv1:~/prep10% galax-run q1.xq
+<DEALS><DEAL>500</DEAL><DEAL>400</DEAL><DEAL>800</DEAL></DEALS>
+
+dbsrv1:~/prep10% galax-run q2.xq
+<COMMERCIAL_UNITS><UNIT><INFO>
+                  <RENT_AMOUNT>500</RENT_AMOUNT>
+                  <RENT_PERIOD>monthly</RENT_PERIOD>
+               </INFO><INFO>
+                  <RENT_AMOUNT>400</RENT_AMOUNT>
+                  <RENT_PERIOD>monthly</RENT_PERIOD>
+               </INFO><INFO rented_by="renter_1">
+                  <RENT_AMOUNT>800</RENT_AMOUNT>
+                  <RENT_PERIOD>monthly</RENT_PERIOD>
+            </INFO><INFO>
+                  <RENT_AMOUNT>2000</RENT_AMOUNT>
+                  <RENT_PERIOD>montly</RENT_PERIOD>
+               </INFO><INFO>
+                  <RENT_AMOUNT>15000</RENT_AMOUNT>
+                  <RENT_PERIOD>yearly</RENT_PERIOD>
+               </INFO><ADDRESS>
+         <UNIT_NUM>1203</UNIT_NUM>
+         <STREET_NUM>666</STREET_NUM>
+         <STREET>Spadina Avenue</STREET>
+         <CITY>Toronto</CITY>
+         <PROVINCE>ON</PROVINCE>
+         <COUNTRY>Canada</COUNTRY>
+         <POSTCODE>M5S 2H8</POSTCODE>
+      </ADDRESS><ADDRESS>
+         <STREET_NUM>80</STREET_NUM>
+         <STREET>Beverly Street</STREET>
+         <CITY>Toronto</CITY>
+         <PROVINCE>ON</PROVINCE>
+         <COUNTRY>Canada</COUNTRY>
+         <POSTCODE>M5T 1Y1</POSTCODE>
+      </ADDRESS><ADDRESS>
+         <UNIT_NUM>251C</UNIT_NUM>
+         <STREET_NUM>10</STREET_NUM>
+         <STREET>Bloor Street West</STREET>
+         <CITY>Toronto</CITY>
+         <PROVINCE>ON</PROVINCE>
+         <COUNTRY>Canada</COUNTRY>
+         <POSTCODE>M4W 3L8</POSTCODE>
+      </ADDRESS><ADDRESS>
+         <STREET_NUM>20</STREET_NUM>
+         <STREET>Yonge Street</STREET>
+         <CITY>Toronto</CITY>
+         <PROVINCE>ON</PROVINCE>
+         <COUNTRY>Canada</COUNTRY>
+         <POSTCODE>M5E 0A6</POSTCODE>
+      </ADDRESS><ADDRESS>
+         <UNIT_NUM>650</UNIT_NUM>
+         <STREET_NUM>720</STREET_NUM>
+         <STREET>Spadina Avenue</STREET>
+         <CITY>Toronto</CITY>
+         <PROVINCE>ON</PROVINCE>
+         <COUNTRY>Canada</COUNTRY>
+         <POSTCODE>M5S 2H8</POSTCODE>
+      </ADDRESS><ADDRESS>
+         <STREET_NUM>198</STREET_NUM>
+         <STREET>Palmerston Blvd</STREET>
+         <CITY>Toronto</CITY>
+         <PROVINCE>ON</PROVINCE>
+         <COUNTRY>Canada</COUNTRY>
+         <POSTCODE>M8V 4Z9</POSTCODE>
+      </ADDRESS></UNIT></COMMERCIAL_UNITS>

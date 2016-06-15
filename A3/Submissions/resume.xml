@@ -1,0 +1,185 @@
+<!DOCTYPE resumes SYSTEM "resume.dtd">
+<resumes>
+<resume rID = "R1">
+<summary>Hard working individual blah blah blah</summary>
+<identification>
+	<name>
+		<forename>Akhil</forename>
+		<surname>Gupta</surname>
+		<honorific>Mr.</honorific>
+		<title>IT Consultant</title>
+	</name>
+	<sex>Male</sex>
+	<DOB>January 10, 1996</DOB>
+	<citizenship>Canadian</citizenship>
+	<address>5764 Whitehorn Avenue</address>
+	<telephone>647-924-5616</telephone>
+	<email>akhil.1996@live.com</email>
+</identification>
+<education>
+	<degree level = "undergraduate">
+		<degreeName>Bachelors of Science</degreeName>
+		<institution>University of Toronto Mississauga</institution>
+		<major>Computer Science</major>
+		<minor>Mathematics</minor>
+		<honours />
+		<period>
+			<startDate>Sept 2013</startDate>
+			<endDate>April 2017</endDate>
+		</period>
+	</degree>
+</education>
+<experience>
+	<position where = "Car Pride Auto Spa">
+		<title>Data Entry Clerk</title>
+		<description>Entered blah blah into blah blah</description>
+		<period>
+			<startDate>Dec 2014</startDate>
+			<endDate>Jun 2015</endDate>
+		</period>
+	</position>
+</experience>
+<skills>
+	<skill what = "SQL" level = "3"/>
+	<skill what = "Python" level = "3"/>
+	<skill what = "R" level = "2"/>
+	<skill what = "Scheme" level = "4"/>
+</skills>
+</resume>
+<resume rID = "R2">
+<summary>Hard working individual blah blah blah</summary>
+<identification>
+        <name>
+                <forename>Nikhil</forename>
+                <surname>Gupta</surname>
+                <honorific>Mr.</honorific>
+                <title>IT Consultant</title>
+        </name>
+        <sex>Male</sex>
+        <DOB>January 10, 1996</DOB>
+        <citizenship>Canadian</citizenship>
+        <address>5764 Whitehorn Avenue</address>
+        <telephone>647-924-5616</telephone>
+        <email>akhil.1996@live.com</email>
+</identification>
+<education>
+        <degree level = "undergraduate">
+                <degreeName>Bachelors of Science</degreeName>
+                <institution>University of Toronto Mississauga</institution>
+                <major>Computer Science</major>
+                <minor>Mathematics</minor>
+                <honours />
+                <period>
+                        <startDate>Sept 2013</startDate>
+                        <endDate>April 2017</endDate>
+                </period>
+        </degree>
+</education>
+<experience>
+        <position where = "Car Pride Auto Spa">
+                <title>Data Entry Clerk</title>
+                <description>Entered blah blah into blah blah</description>
+                <period>
+                        <startDate>Dec 2014</startDate>
+                        <endDate>Jun 2015</endDate>
+                </period>
+        </position>
+</experience>
+<skills>
+        <skill what = "SQL" level = "4"/>
+        <skill what = "Python" level = "3"/>
+</skills>
+</resume>
+<resume rID = "R3">
+<summary>Hard working individual blah blah blah</summary>
+<identification>
+        <name>
+                <forename>Akhil</forename>
+                <surname>Gupta</surname>
+                <honorific>Mr.</honorific>
+                <title>IT Consultant</title>
+        </name>
+        <sex>Male</sex>
+        <DOB>January 10, 1996</DOB>
+        <citizenship>Canadian</citizenship>
+        <address>5764 Whitehorn Avenue</address>
+        <telephone>647-924-5616</telephone>
+        <email>akhil.1996@live.com</email>
+</identification>
+<education>
+        <degree level = "undergraduate">
+                <degreeName>Bachelors of Science</degreeName>
+                <institution>University of Toronto Mississauga</institution>
+                <major>Computer Science</major>
+                <minor>Mathematics</minor>
+                <honours />
+                <period>
+                        <startDate>Sept 2013</startDate>
+                        <endDate>April 2017</endDate>
+                </period>
+        </degree>
+</education>
+<experience>
+        <position where = "Car Pride Auto Spa">
+                <title>Data Entry Clerk</title>
+                <description>Entered blah blah into blah blah</description>
+                <period>
+                        <startDate>Dec 2014</startDate>
+                        <endDate>Jun 2015</endDate>
+                </period>
+        </position>
+</experience>
+<skills>
+	<skill what = "SQL" level = "2"/>
+	<skill what = "Scheme" level = "5"/>
+</skills>
+</resume>
+<resume rID = "R4">
+<summary>Hard working individual blah blah blah</summary>
+<identification>
+        <name>
+                <forename>Akhil</forename>
+                <surname>Gupta</surname>
+                <honorific>Mr.</honorific>
+                <title>IT Consultant</title>
+        </name>
+        <sex>Male</sex>
+        <DOB>January 10, 1996</DOB>
+        <citizenship>Canadian</citizenship>
+        <address>5764 Whitehorn Avenue</address>
+        <telephone>647-924-5616</telephone>
+        <email>akhil.1996@live.com</email>
+</identification>
+<education>
+        <degree level = "undergraduate">
+                <degreeName>Bachelors of Science</degreeName>
+                <institution>University of Toronto Mississauga</institution>
+                <major>Computer Science</major>
+                <minor>Mathematics</minor>
+                <honours />
+                <period>
+                        <startDate>Sept 2013</startDate>
+                        <endDate>April 2017</endDate>
+                </period>
+        </degree>
+</education>
+<experience>
+        <position where = "Car Pride Auto Spa">
+                <title>Data Entry Clerk</title>
+                <description>Entered blah blah into blah blah</description>
+                <period>
+                        <startDate>Dec 2014</startDate>
+                        <endDate>Jun 2015</endDate>
+                </period>
+        </position>
+</experience>
+<skills>
+	<skill what = "Python" level = "5"/>
+	<skill what = "Scheme" level = "2"/>
+	<skill what = "LaTeX" level = "5"/>
+</skills>
+</resume>
+</resumes>	
+		
+
+		

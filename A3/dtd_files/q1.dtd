@@ -1,0 +1,5 @@
+<!ELEMENT skilled (candidate*)>
+<!ELEMENT candidate (name)>
+<!ATTLIST candidate rid CDATA #REQUIRED
+                    numskills CDATA #REQUIRED>
+<!ELEMENT name (#PCDATA)>

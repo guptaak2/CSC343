@@ -1,0 +1,27 @@
+wolf:~/prep9% xmllint --valid books.xml
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE BOOKS SYSTEM "books.dtd">
+<BOOKS>
+    <BOOK>
+      <TITLE>Harry Potter and the Goblet of Fire</TITLE>
+      <AUTHOR>JK Rowling</AUTHOR>
+      <YEAR>2000</YEAR>
+      <RATING rank="4"/>
+      <RATING rank="5"/>
+    </BOOK>
+    <BOOK>
+     <TITLE>Harry Potter and the Prisoner of Azkaban</TITLE>
+     <AUTHOR>JK Rowling again</AUTHOR>
+     <YEAR>2001</YEAR>
+     <RATING rank="4"/>
+     <RATING rank="5"/>
+    </BOOK>
+    <BOOK>
+     <TITLE>Harry Potter and the Order of Phoenix</TITLE>
+     <AUTHOR>JK yet again</AUTHOR>
+     <YEAR>2002</YEAR>
+     <RATING rank="5"/>
+     <RATING rank="0"/>
+     <REVIEW>Not one of her best</REVIEW>
+    </BOOK>
+</BOOKS>

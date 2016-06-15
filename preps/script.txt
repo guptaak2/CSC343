@@ -1,0 +1,29 @@
+dbsrv1:~/prep12% psql csc343h-c5guptaa
+psql (9.1.20)
+Type "help" for help.
+
+csc343h-c5guptaa=> \i DDL.txt 
+psql:DDL.txt:1: NOTICE:  drop cascades to 4 other objects
+DETAIL:  drop cascades to table jobs.posting
+drop cascades to table jobs.questions
+drop cascades to type jobs.score
+drop cascades to type jobs.language
+DROP SCHEMA
+CREATE SCHEMA
+SET
+psql:DDL.txt:8: NOTICE:  CREATE TABLE / PRIMARY KEY will create implicit index "posting_pkey" for table "posting"
+CREATE TABLE
+psql:DDL.txt:14: NOTICE:  CREATE TABLE / PRIMARY KEY will create implicit index "questions_pkey" for table "questions"
+CREATE TABLE
+CREATE DOMAIN
+CREATE DOMAIN
+CREATE TABLE
+csc343h-c5guptaa=> \d
+           List of relations
+ Schema |   Name    | Type  |  Owner   
+--------+-----------+-------+----------
+ jobs   | posting   | table | c5guptaa
+ jobs   | questions | table | c5guptaa
+ jobs   | reqskill  | table | c5guptaa
+(3 rows)
+

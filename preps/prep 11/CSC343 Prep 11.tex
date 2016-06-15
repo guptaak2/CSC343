@@ -1,0 +1,112 @@
+\documentclass{csc_assignment2}
+\usepackage[utf8]{inputenc}
+\usepackage[letterpaper, portrait, margin=1in]{geometry}
+\usepackage{calc}  % arithmetic in length parameters
+\usepackage{enumitem}  % more control over list formatting
+\usepackage{fancyhdr}  % simpler headers and footers
+\usepackage{lastpage}  % for last page number
+\usepackage{relsize}  % easier font size changes
+\usepackage[normalem]{ulem}  % smarter underlining
+\usepackage{url}  % verb-like typesetting of URLs
+\usepackage{xfrac}  % nicer looking simple fractions for text and math
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+% ----------------------------------------------------------------
+% TODO: Enter the assignment number, your name, and your student number below
+% ----------------------------------------------------------------
+\AssignmentName{Prep 11}
+\StudentName{Akhil Gupta}
+\StudentNumber{1000357071}
+
+% ----------------------------------------------------------------
+\begin{document}
+
+\begin{description}
+
+\begin{enumerate}
+\item $(a)$:
+\begin{tabular}{ |c|c| } 
+ \hline
+ R & T \\
+ \hline
+ 1 & 3 \\ 
+ \hline
+ 1 & 2 \\ 
+ \hline
+\end{tabular}\\
+
+$(b)$:
+\begin{tabular}{ |c|c|c| } 
+ \hline
+ Q & R & P \\
+ \hline
+ 1 & 2 & 3 \\ 
+ \hline
+ 1 & 3 & 5 \\ 
+ \hline
+\end{tabular}\\
+
+$(c)$:
+\begin{tabular}{ |c|c|c| } 
+ \hline
+ S & R & P \\
+ \hline
+ 1 & 2 & 3 \\ 
+ \hline
+ 1 & 2 & 5 \\ 
+ \hline
+\end{tabular}\\
+
+$(c)$:
+\begin{tabular}{ |c|c|c|c|c| } 
+ \hline
+ P & Q & R & S & T \\
+ \hline
+ 2 & 1 & 1 & 5 & 2 \\ 
+ \hline
+ 2 & 1 & 1 & 5 & 2 \\ 
+ \hline
+ 2 & 1 & 1 & 5 & 2 \\ 
+ \hline
+ 2 & 1 & 1 & 5 & 2 \\ 
+ \hline
+\end{tabular}\\
+
+\item $(a)$ $B^{+}$: $\text{BDE}$ \\
+$(b)$ $CF^{+}$: $\text{ABCDEF}$ \\
+$(c)$ $DF^{+}$: $\text{ADEF}$ \\
+$(d)$ $BC^{+}$: $\text{BCDE}$ \\
+$(e)$ $ABC^{+}$: $\text{ABCDE}$ 
+
+\item $(a)$ No\\
+$(b)$ Yes\\
+$(c)$ No\\
+$(d)$ No\\
+$(e)$ Yes\\
+
+\item
+\begin{tabular}{ |c|c|c| } 
+ \hline
+ ABD & Closure & FD's inferred  \\
+ \hline
+ 100 & $A^{+} = \text{ACDE}$ & A $\rightarrow$ D  \\ 
+ \hline
+ 010 & $B^{+} = \text{ABCDE}$ & B $\rightarrow$ A, B $\rightarrow$ D  \\ 
+ \hline
+ 001 & $D^{+} = \text{ACDE}$ & D $\rightarrow$ A  \\ 
+ \hline
+ 110 & $AB^{+} = \text{ABCDE} & AB $\rightarrow$ AD  \\ 
+ \hline
+ 101 & $AD^{+} = \text{ACDE} & NULL  \\ 
+ \hline
+ 011 & $BD^{+} = \text{ABCDE} & BD $\rightarrow$ AB  \\ 
+ \hline
+\end{tabular}\\
+
+\end{enumerate}
+\end{description}
+\end{document}
